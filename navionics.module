@@ -1,0 +1,20 @@
+<?php
+/**
+ * Implementation of hook_help().
+ */
+function navionics_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#navionics' :
+      return '<p>' . t('Navionics') . '.</p>';
+      break;
+  }
+}
+
+
+/**
+ * Implementation of hook_page_alter().
+ */
+function navionics_page_alter(&$page) {
+  drupal_add_js('http://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js', 'external');
+  drupal_add_css('http://webapiv2.navionics.com/dist/webapi/webapi.min.css', array('type' => 'external'));
+}
