@@ -1,3 +1,4 @@
+; It's a Navionics Maps Modules for the Drupal Core\
 name = Navionics Web API
 description = Navionics Web API for Drupal
 core = 7.x
