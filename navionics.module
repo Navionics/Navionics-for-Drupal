@@ -1,20 +1,85 @@
 <?php
 /**
- * Implementation of hook_help().
+ * Implements hook_help().
  */
 function navionics_help($path, $arg) {
   switch ($path) {
-    case 'admin/help#navionics' :
-      return '<p>' . t('Navionics') . '.</p>';
+    case "admin/help#navionics":
+      return '<p>' . t("Navionics web API help") . '</p>';
       break;
   }
 }
 
 
 /**
- * Implementation of hook_page_alter().
+ * Implements hook_init().
  */
-function navionics_page_alter(&$page) {
-  drupal_add_js('http://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js', 'external');
-  drupal_add_css('http://webapiv2.navionics.com/dist/webapi/webapi.min.css', array('type' => 'external'));
+function navionics_init() {
+  $navionics_conf_api_server = variable_get('navionics_conf_api_server', 0);
+
+  if ($navionics_conf_api_server === '1') {
+    drupal_add_js('http://webapi-dev.navionics.io/dist/webapi/webapi.min.no-dep.js', array('type'=>'external', 'weight' => -100));
+  } else {
+    drupal_add_js('http://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js', array('type'=>'external', 'weight' => -100));
+  }
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function navionics_menu() {
+  $items = array();
+
+  $items['admin/config/system/navionics'] = array(
+    'title' => 'Navionics',
+    'description' => 'Navionics',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('navionics_admin_form'),
+    'access arguments' => array('administer navionics'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function navionics_permission() {
+  return array(
+    'administer navionics' => array(
+      'title' => t('Administer Navionics web API'),
+      'description' => t('Administer Navionics web API'),
+    ),
+  );
+}
+
+
+/**
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function navionics_admin_form($form, &$form_state) {
+
+  $form['navionics_conf'] = array(
+    '#type'  => 'fieldset',
+    '#title' => t('Navionics API settings'),
+  );
+
+  $form['navionics_conf']['api_server'] = array(
+    '#type'          => 'radios',
+    '#title'         => t('Navionics web API server'),
+    '#default_value' => variable_get('navionics_conf_api_server', 0),
+    '#options'       =>
+      array(
+        0 => t('Live <i>http://webapiv2.navionics.com</i> (default)'),
+        1 => t('Dev <i>http://webapi-dev.navionics.io</i>')
+      ),
+    '#description'   => t('On a production site, always use the live server.'),
+  );
+
+  return system_settings_form($form);
 }

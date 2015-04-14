@@ -1,6 +1,6 @@
 ; It's a Navionics Maps Modules for the Drupal Core\
-name = Navionics Web API
-description = Navionics Web API for Drupal
+name = Navionics web API
+description = Navionics web API
 core = 7.x
 package = Location
-configure = admin/config/content/navionics
+configure = admin/config/system/navionics
