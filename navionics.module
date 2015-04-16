@@ -5,7 +5,7 @@
 function navionics_help($path, $arg) {
   switch ($path) {
     case "admin/help#navionics":
-      return '<p>' . t("Navionics web API help") . '</p>';
+      return '<p>' . t("About Navionics web API") . '</p>';
       break;
   }
 }
@@ -15,12 +15,30 @@ function navionics_help($path, $arg) {
  * Implements hook_init().
  */
 function navionics_init() {
-  $navionics_conf_api_server = variable_get('navionics_conf_api_server', 0);
+  $navionics_web_api_server = variable_get('navionics_web_api_server', 0);
 
-  if ($navionics_conf_api_server === '1') {
-    drupal_add_js('http://webapi-dev.navionics.io/dist/webapi/webapi.min.no-dep.js', array('type'=>'external', 'weight' => -100));
+  if ($navionics_web_api_server === '1') {
+    // Temporarily we add the JS directly in html.tpl.php
+    //drupal_add_js('http://webapi-dev.navionics.io/dist/webapi/webapi.min.no-dep.js', array('type'=>'external', 'weight' => -100));
+    drupal_add_css('http://webapi-dev.navionics.io/dist/webapi/webapi.min.css', array('type'=>'external', 'weight' => -100));
   } else {
-    drupal_add_js('http://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js', array('type'=>'external', 'weight' => -100));
+    // Temporarily we add the JS directly in html.tpl.php
+    //drupal_add_js('http://webapiv2.navionics.com/dist/webapi/webapi.min.no-dep.js', array('type'=>'external', 'weight' => -100));
+    drupal_add_css('http://webapiv2.navionics.com/dist/webapi/webapi.min.css', array('type'=>'external', 'weight' => -100));
+  }
+}
+
+
+/**
+ * Implements template_preprocess_html().
+ */
+function navionics_preprocess_html(&$variables) {
+  $navionics_web_api_server = variable_get('navionics_web_api_server', 0);
+
+  if ($navionics_web_api_server === '1') {
+    $variables['attributes_array']['data-root']='http://webapi-dev.navionics.io/dist/webapi/images';
+  } else {
+    $variables['attributes_array']['data-root']='http://webapiv2.navionics.com/dist/webapi/images';
   }
 }
 
@@ -32,8 +50,8 @@ function navionics_menu() {
   $items = array();
 
   $items['admin/config/system/navionics'] = array(
-    'title' => 'Navionics',
-    'description' => 'Navionics',
+    'title' => 'Navionics web API',
+    'description' => 'Configure Navionics web API settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('navionics_admin_form'),
     'access arguments' => array('administer navionics'),
@@ -64,15 +82,15 @@ function navionics_permission() {
  */
 function navionics_admin_form($form, &$form_state) {
 
-  $form['navionics_conf'] = array(
+  $form['conf'] = array(
     '#type'  => 'fieldset',
     '#title' => t('Navionics API settings'),
   );
 
-  $form['navionics_conf']['api_server'] = array(
+  $form['conf']['navionics_web_api_server'] = array(
     '#type'          => 'radios',
     '#title'         => t('Navionics web API server'),
-    '#default_value' => variable_get('navionics_conf_api_server', 0),
+    '#default_value' => variable_get('navionics_web_api_server', 0),
     '#options'       =>
       array(
         0 => t('Live <i>http://webapiv2.navionics.com</i> (default)'),
