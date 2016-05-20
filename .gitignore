@@ -5,6 +5,7 @@ sites/*/*settings*.php
 files/
 sites/*/files
 sites/*/private
+root/navionics
 
 # Ignore default text files
 robots.txt
@@ -34,3 +35,4 @@ xmlrpc.php
 /profiles
 /scripts
 /themes
+
