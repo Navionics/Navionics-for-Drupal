@@ -3,4 +3,4 @@ name = Navionics web API
 description = Navionics web API
 core = 7.x
 package = Location
-configure = admin/config/system/navionics
+configure = admin/config/system/navionics_web_api
