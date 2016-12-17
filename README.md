@@ -17,4 +17,4 @@ A Drupal 7 module that simplifies the usage of [Navionics WebAPI v2](http://weba
 ![GitHub Logo](/assets/config_01.png)
 
 ### Select the version
-![GitHub Logo](/assets/config_02.png)
+![GitHub Logo](assets/config_02.png)
