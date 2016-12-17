@@ -10,11 +10,11 @@ A Drupal 7 module that simplifies the usage of [Navionics WebAPI v2](http://weba
 
 ### Enable the modules
 
-![GitHub Logo](/assets/module_01.png)
+![Enable module](//github.com/Navionics/Navionics-for-Drupal/raw/master/assets/module_01.png)
 
 ### Configure it via menù
 
-![GitHub Logo](/assets/config_01.png)
+![Configure](//github.com/Navionics/Navionics-for-Drupal/raw/master/assets/config_01.png)
 
 ### Select the version
-![GitHub Logo](assets/config_02.png)
+![Select Version](//github.com/Navionics/Navionics-for-Drupal/raw/master/assets/config_02.png)
